@@ -1,19 +1,17 @@
-pragma solidity >=0.4.21 <0.7.0;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
 
 import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
-import "../contracts/SimpleStorage.sol";
+import "../contracts/MyToken.sol";
 
 contract TestSimpleStorage {
 
-  function testItStoresAValue() public {
-    SimpleStorage simpleStorage = SimpleStorage(DeployedAddresses.SimpleStorage());
+  function testInitialBalanceUsingDeployedContract() public {
+    MyToken myToken = MyToken(DeployedAddresses.MyToken());
 
-    simpleStorage.set(89);
+    uint expected = 1000000;
 
-    uint expected = 89;
-
-    Assert.equal(simpleStorage.get(), expected, "It should store the value 89.");
+    Assert.equal(myToken.totalSupply(), expected, "It should initialize with 1,000,000 tokens");
   }
-
 }

@@ -1,15 +1,14 @@
-const SimpleStorage = artifacts.require("./SimpleStorage.sol");
+const MyToken = artifacts.require("./MyToken.sol");
 
-contract("SimpleStorage", accounts => {
-  it("...should store the value 89.", async () => {
-    const simpleStorageInstance = await SimpleStorage.deployed();
+contract("MyToken", async accounts => {
+  it("Should initialize account[0] with 1,000,000 tokens.", async () => {
+    const myTokenInstance = await MyToken.deployed();
+    const balance = await myTokenInstance.totalSupply();
 
-    // Set value of 89
-    await simpleStorageInstance.set(89, { from: accounts[0] });
-
-    // Get stored value
-    const storedData = await simpleStorageInstance.get.call();
-
-    assert.equal(storedData, 89, "The value 89 was not stored.");
+    assert.equal(
+        balance.valueOf(),
+        1000000,
+        "1,000,000 was not in the first account."
+    );
   });
 });
