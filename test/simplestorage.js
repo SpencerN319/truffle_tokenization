@@ -1,10 +1,17 @@
 const MyToken = artifacts.require("./MyToken.sol");
+require("dotenv").config({path: "../.env"});
 
-contract("MyToken", async accounts => {
+contract("MyToken", accounts => {
+  const INITIAL_TOKENS = process.env.INITIAL_TOKENS;
   const [deployerAccount, recipientAccount] = accounts;
 
+  beforeEach( async () => {
+
+    this.myToken = await MyToken.new(INITIAL_TOKENS);
+  })
+
   it("Should initialize a total supply with 1,000,000 tokens.", async () => {
-    const myTokenInstance = await MyToken.deployed();
+    const myTokenInstance = this.myToken;
     const balance = await myTokenInstance.totalSupply();
 
     assert.equal(
@@ -15,19 +22,19 @@ contract("MyToken", async accounts => {
   });
 
   it("Should initialize deployerAccount with 1,000,000 tokens.", async () => {
-    const myTokenInstance = await MyToken.deployed();
+    const myTokenInstance = this.myToken;
     const balance = await myTokenInstance.balanceOf(deployerAccount);
 
     assert.equal(
         balance.valueOf(),
-        1000000,
+        INITIAL_TOKENS,
         "1,000,000 was not in the first account."
     );
   });
 
   it("Is possible to send tokens between accounts.", async () => {
     const amount = 100;
-    const myTokenInstance = await MyToken.deployed();
+    const myTokenInstance = this.myToken;
     await myTokenInstance.transfer(recipientAccount, amount);
     const totalBalance = await myTokenInstance.totalSupply();
     const deployerBalance = await myTokenInstance.balanceOf(deployerAccount);
@@ -48,7 +55,7 @@ contract("MyToken", async accounts => {
 
   it('Is not possible to send more tokens then available', async () => {
     const amount = 100;
-    const myTokenInstance = await MyToken.deployed();
+    const myTokenInstance = this.myToken;
     await myTokenInstance.transfer(recipientAccount, amount);
     const deployerBalance = await myTokenInstance.balanceOf(deployerAccount);
     const preRecipientBalance = await myTokenInstance.balanceOf(recipientAccount);
