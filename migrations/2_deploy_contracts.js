@@ -1,7 +1,7 @@
+require("dotenv").config({path: "../.env"});
 var MyToken = artifacts.require("./MyToken.sol");
 var MyTokenSale = artifacts.require("./MyTokenSale.sol");
 var Kyc = artifacts.require("./Kyc.sol");
-require("dotenv").config({path: "../.env"});
 
 module.exports = async function (deployer) {
   const INITIAL_AMOUNT = process.env.INITIAL_TOKENS;

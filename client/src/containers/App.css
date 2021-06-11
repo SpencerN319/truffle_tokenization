@@ -1,0 +1,32 @@
+* {
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
+}
+
+.App {
+  max-width: 1400px;
+  margin: auto;
+  text-align: center;
+}
+
+.Divider {
+  height: 25px;
+}
+
+.Heading {
+  font-size: 30px;
+}
+
+.Form {
+  width: 40%;
+  margin: 15px auto;
+}
+
+.FormItem {
+  width: 80%;
+  height: 35px;
+  display: block;
+  margin: 10px;
+  font-size: 16px;
+}
