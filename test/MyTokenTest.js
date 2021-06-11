@@ -14,8 +14,8 @@ contract("MyToken", accounts => {
     const myTokenInstance = this.myToken;
     const balance = await myTokenInstance.totalSupply();
 
-    assert.equal(
-        balance.valueOf(),
+    return assert.equal(
+        balance.toNumber(),
         1000000,
         "1,000,000 was not initialized as the total supply."
     );
@@ -25,8 +25,8 @@ contract("MyToken", accounts => {
     const myTokenInstance = this.myToken;
     const balance = await myTokenInstance.balanceOf(deployerAccount);
 
-    assert.equal(
-        balance.valueOf(),
+    return assert.equal(
+        balance.toNumber(),
         INITIAL_TOKENS,
         "1,000,000 was not in the first account."
     );
@@ -46,7 +46,7 @@ contract("MyToken", accounts => {
         `Deployer account was not deducted ${amount}`
     );
 
-    assert.equal(
+    return assert.equal(
         recipientBalance.toNumber(),
         amount,
         `Recipient account was not incremented ${amount}`
@@ -63,7 +63,7 @@ contract("MyToken", accounts => {
     try {
       await myTokenInstance.transfer(recipientAccount, deployerBalance.toNumber() + 1)
     } catch (error) {
-      assert.include(
+      return assert.include(
           error.message,
           'revert',
           'Cannot send more than the total supply of tokens.'
@@ -72,7 +72,7 @@ contract("MyToken", accounts => {
 
     const postRecipientBalance = await myTokenInstance.balanceOf(recipientAccount);
 
-    assert.equal(
+    return assert.equal(
         preRecipientBalance.toNumber(),
         postRecipientBalance.toNumber(),
         'Balance should not change on revert.'
