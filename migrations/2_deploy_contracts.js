@@ -5,10 +5,12 @@ require("dotenv").config({path: "../.env"});
 
 module.exports = async function (deployer) {
   const INITIAL_AMOUNT = process.env.INITIAL_TOKENS;
-  let addr = await web3.eth.getAccounts();
+  const [deployerAccount] = await web3.eth.getAccounts();
   await deployer.deploy(MyToken, INITIAL_AMOUNT);
   await deployer.deploy(Kyc);
-  await deployer.deploy(MyTokenSale, 1, addr[0], MyToken.address, Kyc);
-  let myTokenInstance = await MyToken.deployed();
+  await deployer.deploy(MyTokenSale, 1, deployerAccount, MyToken.address, Kyc.address);
+  const myTokenInstance = await MyToken.deployed();
   await myTokenInstance.transfer(MyTokenSale.address, INITIAL_AMOUNT);
+  const kycInstance = await Kyc.deployed();
+  await kycInstance.setKycCompleted(deployerAccount, {from: deployerAccount});
 };

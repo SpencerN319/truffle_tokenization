@@ -14,6 +14,6 @@ contract MyTokenSale is CrowdSale {
 
     function _preValidatePurchase(address beneficiary, uint256 weiAmount) internal view override {
         super._preValidatePurchase(beneficiary, weiAmount);
-        require(kyc.KycCompleted(msg.sender), "KYC not completed: purchase not allowed");
+        require(kyc.kycCompleted(msg.sender), "KYC not completed: purchase not allowed");
     }
 }

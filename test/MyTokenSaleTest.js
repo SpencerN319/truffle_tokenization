@@ -1,5 +1,6 @@
 const MyTokenSale = artifacts.require("./MyTokenSale.sol");
 const MyToken = artifacts.require("./MyToken.sol");
+const Kyc = artifacts.require('./Kyc.sol');
 require("dotenv").config({path: "../.env"});
 
 contract("MyTokenSale Tests", accounts => {
